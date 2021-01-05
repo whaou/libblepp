@@ -169,6 +169,8 @@ namespace BLEPP
 		//these mean
 		uint16_t interval = htobs(0x0010);
 		uint16_t window = htobs(0x0010);
+		// uint16_t interval = htobs(0x01000);
+		// uint16_t window = htobs(0x01000);
 
 		//Address for the adapter (I think). Use a public address.
 		//other option is random. Works either way it seems.

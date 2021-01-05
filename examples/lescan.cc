@@ -67,6 +67,7 @@ int main(int argc, char** argv)
 
 
 	log_level = LogLevels::Warning;
+	// log_level = LogLevels::Info;
 	HCIScanner scanner(true, filter, type);
 	
 	//Catch the interrupt signal. If the scanner is not 
@@ -87,6 +88,7 @@ int main(int argc, char** argv)
 		//and wait if there's not.
 		struct timeval timeout;     
 		timeout.tv_sec = 0;     
+		// timeout.tv_sec = 600;     
 		timeout.tv_usec = 300000;
 
 		fd_set fds;
@@ -103,34 +105,37 @@ int main(int argc, char** argv)
 			//Only read id there's something to read
 			vector<AdvertisingResponse> ads = scanner.get_advertisements();
 
-			for(const auto& ad: ads)
-			{
-				cout << "Found device: " << ad.address << " ";
+			// cout << std::fixed << std::setprecision(6) << std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::system_clock::now().time_since_epoch()).count() << " ";
+			cout << std::fixed << std::setprecision(6) << std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::system_clock::now().time_since_epoch()).count() << endl;
 
-				if(ad.type == LeAdvertisingEventType::ADV_IND)
-					cout << "Connectable undirected" << endl;
-				else if(ad.type == LeAdvertisingEventType::ADV_DIRECT_IND)
-					cout << "Connectable directed" << endl;
-				else if(ad.type == LeAdvertisingEventType::ADV_SCAN_IND)
-					cout << "Scannable " << endl;
-				else if(ad.type == LeAdvertisingEventType::ADV_NONCONN_IND)
-					cout << "Non connectable" << endl;
-				else
-					cout << "Scan response" << endl;
-				for(const auto& uuid: ad.UUIDs)
-					cout << "  Service: " << to_str(uuid) << endl;
-				if(ad.local_name)
-					cout << "  Name: " << ad.local_name->name << endl;
-				if(ad.rssi == 127)
-					cout << "  RSSI: unavailable" << endl;
-				else if(ad.rssi <= 20)
-					cout << "  RSSI = " << (int) ad.rssi << " dBm" << endl;
-				else
-					cout << "  RSSI = " << to_hex((uint8_t)ad.rssi) << " unknown" << endl;
-			}
+			// for(const auto& ad: ads)
+			// {
+			// 	cout << "Found device: " << ad.address << " ";
+
+			// 	if(ad.type == LeAdvertisingEventType::ADV_IND)
+			// 		cout << "Connectable undirected" << endl;
+			// 	else if(ad.type == LeAdvertisingEventType::ADV_DIRECT_IND)
+			// 		cout << "Connectable directed" << endl;
+			// 	else if(ad.type == LeAdvertisingEventType::ADV_SCAN_IND)
+			// 		cout << "Scannable " << endl;
+			// 	else if(ad.type == LeAdvertisingEventType::ADV_NONCONN_IND)
+			// 		cout << "Non connectable" << endl;
+			// 	else
+			// 		cout << "Scan response" << endl;
+			// 	for(const auto& uuid: ad.UUIDs)
+			// 		cout << "  Service: " << to_str(uuid) << endl;
+			// 	if(ad.local_name)
+			// 		cout << "  Name: " << ad.local_name->name << endl;
+			// 	if(ad.rssi == 127)
+			// 		cout << "  RSSI: unavailable" << endl;
+			// 	else if(ad.rssi <= 20)
+			// 		cout << "  RSSI = " << (int) ad.rssi << " dBm" << endl;
+			// 	else
+			// 		cout << "  RSSI = " << to_hex((uint8_t)ad.rssi) << " unknown" << endl;
+			// }
 		}
-		else
-			cout << throbber[i%4] << "\b" << flush;
+		// else
+		// 	cout << throbber[i%4] << "\b" << flush;
 		i++;
 	}
 
