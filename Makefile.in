@@ -79,16 +79,20 @@ install: install-so install-a install-hdr install-pkgconfig
 
 install-a: $(archive) | $(lib)
 	cp $(archive) $(lib)
+	ldconfig
 
 install-so: $(soname) $(soname1) $(soname2) | $(lib)
 	cp $(soname) $(soname1) $(soname2) $(lib)
+	ldconfig
 
 install-hdr: | $(hdr)
 	cp -r $(srcdir)/blepp $(hdr)
+	ldconfig
 
 install-pkgconfig:
 	[ "$(pkgconfig)" = "" ] || mkdir -p $(DESTDIR)$(pkgconfig)
 	[ "$(pkgconfig)" = "" ] || cp libblepp.pc $(DESTDIR)$(pkgconfig)/
+	ldconfig
 	
 
 
